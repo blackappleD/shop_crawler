@@ -157,3 +157,56 @@ python schedule_main.py
 - 批量更新所有账号Cookie
 
 
+
+### 电商数据采集
+支持的网站：暂时只支持京东，后续也会接入支持其他电商平台
+
+### 参数定义
+search_url=https://search.jd.com/Search?keyword={{keyword}}
+detail_url=https://item.jd.com/{{sku}}.html
+login_url=https://passport.jd.com/new/login.aspx
+
+need_login_xml=<a href="javascript:login();" class="link-login"><span>你好，</span><span class="style-red">请登录</span></a>
+
+sku_xml=<ul class="gl-warp clearfix" data-tpl="1"><li data-sku="100014366815" data-spu="100014366815" ware-type="10" bybt="0" class="gl-item"></li><li data-sku="100048306268" data-spu="100048306268" ware-type="10" bybt="0" class="gl-item"></ul>
+
+title_xml=<div class="sku-name"><img src="//img13.360buyimg.com/imagetools/jfs/t1/248227/2/26957/4011/6752d75cF80d258af/b01578d43f78670c.png" id="bgIcon" style="height:16px;display:none" alt="国家补贴"><img src="//img13.360buyimg.com/imagetools/jfs/t1/84452/25/26900/1090/66bc16cbF1e47fb52/30d3a11007fd979a.png" alt="新品">CHIYINNB【官网直营正品丨降噪Air4代】 华强北蓝牙耳机真无线适配苹果ANC降噪半入耳式iPhone16/15Pods 【原版正装全功能顶配版】 主动降噪+空间音頻</div>
+
+price_xml=<span class="p-price msbtPrice"><span>￥</span><span class="price J-p-10128414207655">128.00</span><span id="J_JdContent">补贴价</span></span>
+
+img_xml=<div class="sku-name"><img src="//img13.360buyimg.com/imagetools/jfs/t1/248227/2/26957/4011/6752d75cF80d258af/b01578d43f78670c.png" id="bgIcon" style="height:16px;display:none" alt="国家补贴"><img src="//img13.360buyimg.com/imagetools/jfs/t1/84452/25/26900/1090/66bc16cbF1e47fb52/30d3a11007fd979a.png" alt="新品">CHIYINNB【官网直营正品丨降噪Air4代】 华强北蓝牙耳机真无线适配苹果ANC降噪半入耳式iPhone16/15Pods 【原版正装全功能顶配版】 主动降噪+空间音頻</div>
+
+
+### 提供Http接口
+1. product_search接口
+用来根据商品关键字查询商品sku列表。爬取{{search_url}}
+- parma1: keyword
+- param2: page
+
+- result: shu数组
+
+2. product_detail接口
+用来根据商品sku获取商品详细信息，暂时只获取商品标题和价格。爬取{{detail_url}}
+
+- param1: sku
+
+- result: {
+    "title": "xxx",
+    "price": "100",
+    "img": "xxx"
+  }
+
+###主要技术栈
+playwright，BeautifulSoup
+注意，设置浏览器参数时，尽量保证不要让服务器察觉到是爬虫
+
+###主要流程
+第一步. 使用db_manager.py中的方法从Redis中随机获取一个Cookie，
+第二步. 使用playwright，当调用product_search方法时，请求{{seartch_url}}，调用product_detail方法时，请求{{detail_url}}
+第三步. 等待页面加载完成后，
+        判断是否存在元素{{need_login_xml}}
+        - 如果存在，则重新获取一个不同的cookie 并回到第二步继续执行
+        - 如果不存在则执行第四步
+第四步. 如果调用的是product_search接口： 根据{{sku_selector}}采集sku列表
+       如果调用的是product_detail接口： 根据{{title_xml}}爬取商品标题，根据{{price_xml}}爬取商品价格，根据{{img_xml}}爬取商品图片
+

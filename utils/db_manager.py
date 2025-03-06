@@ -123,7 +123,7 @@ class MysqlManager:
         """
         try:
             with self.connection.cursor() as cursor:
-                sql = "SELECT username, password, phone FROM jd_account"
+                sql = "SELECT username, password, phone FROM jd_account WHERE status = 1 "
                 cursor.execute(sql)
                 results = cursor.fetchall()
                 return results
