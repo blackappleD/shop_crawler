@@ -8,6 +8,7 @@ from utils.db_manager import RedisManager, MysqlManager
 from config import (
     qinglong_data,
     user_datas,
+    cron_expression
 )
 import cv2
 import json
@@ -50,6 +51,10 @@ from utils.tools import (
     extract_pt_pin,
     desensitize_account
 )
+import uvicorn
+from datetime import datetime, timedelta
+from croniter import croniter
+from crawler import router as crawler_router
 
 """
 基于playwright做的
@@ -956,17 +961,20 @@ async def main(mode: str = None):
     except Exception as e:
         traceback.print_exc()
 
-
 def parse_args():
-    """
-    解析参数
-    """
+    """解析参数"""
     parser = argparse.ArgumentParser()
     parser.add_argument('-m', '--mode', choices=['cron'], help="运行的main的模式(例如: 'cron')")
+    parser.add_argument('-p', '--port', type=int, default=8000, help="服务运行的端口号")
+    parser.add_argument('--host', default="0.0.0.0", help="服务运行的主机地址")
     return parser.parse_args()
 
-
 if __name__ == '__main__':
-    # 使用解析参数的函数
     args = parse_args()
-    asyncio.run(main(mode=args.mode))
+    # 启动FastAPI服务
+    uvicorn.run(
+        "app:app",  # 使用模块导入方式
+        host=args.host,
+        port=args.port,
+        log_level="info"
+    )
