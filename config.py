@@ -1,13 +1,3 @@
-# JD用户信息
-user_datas = {
-   
-}
-
-# ql信息
-qinglong_data = {
-
-}
-
 # 定时器
 cron_expression = "*/11 * * * *"
 
