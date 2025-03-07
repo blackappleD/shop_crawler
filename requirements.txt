@@ -6,3 +6,6 @@ croniter
 inputimeout
 redis
 pymysql
+fastapi
+uvicorn
+beautifulsoup4

@@ -3,13 +3,8 @@ user_datas = {
 
 }
 
-# ql信息
-qinglong_data = {
-
-}
-
 # 定时器
-cron_expression = "*/11 * * * *"
+cron_expression = "*/29 * * * *"
 
 # 浏览器是否开启无头模式，即是否展示整个登录过程
 headless = False
@@ -78,6 +73,9 @@ account_source = "mysql"
 cookie_source = "redis"
 # Cookie目标存储: "qinglong" 表示存储到青龙面板，"redis" 表示存储到Redis
 cookie_target = "redis"
+
+# 是否开启账号信息脱敏（在日志和消息通知中隐藏敏感信息）
+enable_desensitize = True
 
 # 如果需要使用MySQL和Redis作为数据源，可以使用以下配置：
 # account_source = "mysql"  # 从MySQL获取账号信息

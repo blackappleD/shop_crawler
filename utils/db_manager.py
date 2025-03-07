@@ -92,7 +92,7 @@ class RedisManager:
 
 
 class MysqlManager:
-    """MySQL管理类，用于获取JD账号信息"""
+    """MySQL管理类，用于获取账号信息"""
     
     def __init__(self, host='127.0.0.1', port=3306, user='root', password='', database=''):
         """
@@ -116,7 +116,7 @@ class MysqlManager:
         
     def get_all_accounts(self):
         """
-        获取所有JD账号信息
+        获取所有账号信息
         
         Returns:
             list: 包含所有账号信息的列表

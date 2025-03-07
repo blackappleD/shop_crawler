@@ -29,7 +29,7 @@ class JDCrawler(BaseCrawler):
         # 设置随机Cookie
         cookies = self.redis_manager.get_all_cookies()
         if cookies:
-            cookie_list = [{"name": k, "value": v} for k, v in cookies.items()]
+            cookie_list = [{"name": k, "value": v, "domain": ".jd.com", "path": "/"} for k, v in cookies.items()]
             await self.page.context.add_cookies(cookie_list)
             
     async def check_login_status(self) -> bool:

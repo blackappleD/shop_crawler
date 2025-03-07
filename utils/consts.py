@@ -1,7 +1,10 @@
 # 项目名
 program = "shop_crawler"
-# JD登录页
-jd_login_url = "https://plogin.m.jd.com/login/login?appid=300&returnurl=https%3A%2F%2Fwq.jd.com%2Fpassport%2FLoginRedirect%3Fstate%3D1103073577433%26returnurl%3Dhttps%253A%252F%252Fhome.m.jd.com%252FmyJd%252Fhome.action&source=wq_passport"
+# JD pc登录页
+jd_login_url = "https://passport.jd.com/uc/login?ltype=logout&ReturnUrl=https%3A%2F%2Fhome.jd.com%2Findex.html"
+# JD mobile登录页
+# jd_login_url = "https://plogin.m.jd.com/login/login?appid=300&returnurl=https%3A%2F%2Fwq.jd.com%2Fpassport%2FLoginRedirect%3Fstate%3D1103073577433%26returnurl%3Dhttps%253A%252F%252Fhome.m.jd.com%252FmyJd%252Fhome.action&source=wq_passport"
+
 # 支持的形状类型
 supported_types = [
     "三角形",
@@ -33,5 +36,30 @@ supported_voice_func = [
     "no",
     "manual_input"
 ]
+
+
+class PcLoginSelectors:
+    slider_btn_selector = ".JDJRV-slide-inner.JDJRV-slide-btn"
+    slider_image_selector = ".JDJRV-smallimg"
+    captcha_selector = ".JDJRV-suspend-slide"
+    login_selector = "#loginsubmit"
+
+
+class MobileLoginSelectors:
+    slider_btn_selector = "img.move-img"
+    slider_image_selector = "#small_img"
+    captcha_selector = ".captcha_drop"
+    login_selector = ".btn.J_ping.active"
+
+
+class Platform:
+    pc = "pc"
+    mobile = "mobile"
+
+
+class Enterprise:
+    jd = "jd"
+
+
 # 默认的UA, 可以在config.py里配置
-user_agent = 'Mozilla/5.0 Chrome'
+user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0'

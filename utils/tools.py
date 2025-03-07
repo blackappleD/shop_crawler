@@ -15,7 +15,8 @@ from typing import Dict, Any
 from utils.consts import supported_colors
 from typing import Union, List
 
-def get_tmp_dir(tmp_dir:str = './tmp'):
+
+def get_tmp_dir(tmp_dir: str = './tmp'):
     # 检查并创建 tmp 目录（如果不存在）
     if not os.path.exists(tmp_dir):
         os.makedirs(tmp_dir)
@@ -94,11 +95,22 @@ def get_forbidden_users_dict(users_list: list, user_datas: dict) -> dict:
     users_dict = {}
     for info in users_list:
         for key in user_datas:
-            user_pt_pin = user_datas[key]['pt_pin']
-            if user_pt_pin == extract_pt_pin(info['value']):
+            user_name = user_datas[key]['pt_pin']
+            if user_name == extract_username_pc(info['value']):
                 users_dict[key] = info
                 break
     return users_dict
+
+
+async def download_image(url, filepath):
+    async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            if response.status == 200:
+                with open(filepath, 'wb') as f:
+                    f.write(await response.read())
+                print(f"Image downloaded to {filepath}")
+            else:
+                print(f"Failed to download image. Status code: {response.status}")
 
 
 async def human_like_mouse_move(page, from_x, to_x, y):
@@ -165,13 +177,15 @@ async def new_solve_slider_captcha(page, slider, distance, slide_difference):
     # 等待滑块元素出现
     distance = distance + slide_difference
     box = await slider.bounding_box()
-    await page.mouse.move(box['x'] + 10 , box['y'] + 10)
+    await page.mouse.move(box['x'] + 10, box['y'] + 10)
     await page.mouse.down()  # 模拟鼠标按下
-    await page.mouse.move(box['x'] + distance + random.uniform(8, 10), box['y'], steps=5)  # 模拟鼠标拖动，考虑到实际操作中可能存在的轻微误差和波动，加入随机偏移量
+    await page.mouse.move(box['x'] + distance + random.uniform(8, 10), box['y'],
+                          steps=5)  # 模拟鼠标拖动，考虑到实际操作中可能存在的轻微误差和波动，加入随机偏移量
     await asyncio.sleep(random.randint(1, 5) / 10)  # 随机等待一段时间，模仿人类操作的不确定性
     await page.mouse.move(box['x'] + distance, box['y'], steps=10)  # 继续拖动滑块到目标位置
     await page.mouse.up()  # 模拟鼠标释放，完成滑块拖动
     await asyncio.sleep(3)  # 等待3秒，等待滑块验证结果
+
 
 def sort_rectangle_vertices(vertices):
     """
@@ -325,7 +339,8 @@ async def send_msg(send_api, send_type: int, msg: str):
         return
 
     from config import send_info, is_send_success_msg, is_send_fail_msg
-    if (send_type == SendType.success.value and is_send_success_msg) or (send_type == SendType.fail.value and is_send_fail_msg):
+    if (send_type == SendType.success.value and is_send_success_msg) or (
+            send_type == SendType.fail.value and is_send_fail_msg):
         for key in send_info:
             for url in send_info[key]:
                 rep = await send_call_method(send_api, key, url, msg)
@@ -349,14 +364,15 @@ def expand_coordinates(x1, y1, x2, y2, N):
     return new_x1, new_y1, new_x2, new_y2
 
 
-def cv2_save_img(img_name, img, tmp_dir:str = './tmp'):
+def cv2_save_img(img_name, img, tmp_dir: str = './tmp'):
     tmp_dir = get_tmp_dir(tmp_dir)
     img_path = os.path.join(tmp_dir, f'{img_name}.png')
     cv2.imwrite(img_path, img)
     return img_path
 
 
-async def send_request(url: str, method: str, headers: Dict[str, Any], data: Dict[str, Any] = None, **kwargs) -> Dict[str, Any]:
+async def send_request(url: str, method: str, headers: Dict[str, Any], data: Dict[str, Any] = None, **kwargs) -> Dict[
+    str, Any]:
     """
     发请求的通用方法
     """
@@ -381,9 +397,9 @@ def validate_proxy_config(proxy):
     url_pattern = re.compile(
         r'^(http|https|socks5)://'
         r'(?:(?:[A-Za-z0-9-]+\.)+[A-Za-z]{2,6}|'  # 域名
-        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'    # 或者IP地址
-        r'(?::\d+)?'                              # 可选端口
-        r'(?:/.*)?$'                              # 可选路径
+        r'\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})'  # 或者IP地址
+        r'(?::\d+)?'  # 可选端口
+        r'(?:/.*)?$'  # 可选路径
     )
 
     if not server or not url_pattern.match(server):
@@ -407,62 +423,17 @@ def is_valid_verification_code(code: str):
     return bool(re.match(r"^\d{6}$", code))
 
 
-def extract_pt_pin(value: str) -> Union[str, None]:
+def extract_username_pc(value: str) -> Union[str, None]:
     """
-    用正则提取value中pt_pin的值, 返回一个pt_pin,如果返回多个或没匹配上则返回空, 支持以下几种格式:
-    pt_key=xxx;pt_pin=xxx;
-    pt_key=xxx;pt_pin="xxx";
-    pt_key=xxx;pt_pin='xxx';
-    pt_pin=xxx;pt_key=xxx;
-    pt_pin=xxx;pt_key="xxx";
-    pt_pin=xxx;pt_key='xxx';
+    用正则提取value中pin的值, 返回一个pin,如果返回多个或没匹配上则返回空
     """
-    pattern = r'pt_pin\s*=\s*(["\']?)([^"\';]+)\1'  # 捕获 pt_pin 的值，并匹配可能的引号
+    pattern = r'pin\s*=\s*(["\']?)([^"\';]+)\1'  # 捕获pin 的值，并匹配可能的引号
     matches = re.findall(pattern, value)
     # 如果找到了多个匹配或没有匹配，则返回空
     if len(matches) == 1:
-        # 返回 pt_pin 的值
+        # 返回 pin 的值
         return matches[0][1]
     return None
-
-
-def filter_cks(
-    env_data: List[Dict[str, Any]],
-    *,
-    status: int = None,
-    id: int = None,
-    **kwargs
-) -> List[Dict[str, Any]]:
-    """
-    过滤env_data中符合条件的字典。
-
-    :param env_data: ql环境变量数据
-    :param status: 过滤条件之一，status字段的值。
-    :param id: 过滤条件之一，id字段的值。
-    :param kwargs: 其他过滤条件。
-    :return: 符合条件的字典列表。
-    """
-    # 检查必传参数是否至少传了一个
-    if status is None and id is None and not kwargs:
-        raise ValueError("至少需要传入一个过滤条件（status、id或其他字段）。")
-
-    # 合并所有过滤条件
-    filters = {}
-    if status is not None:
-        filters["status"] = status
-    if id is not None:
-        filters["id"] = id
-    # 添加其他过滤条件
-    filters.update(kwargs)
-
-    # 过滤数据
-    filtered_list = []
-
-    for item in env_data:
-        if all(item.get(key) == value for key, value in filters.items()):
-            filtered_list.append(item)
-
-    return filtered_list
 
 
 def desensitize_account(account, enable_desensitize=True):
