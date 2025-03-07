@@ -138,7 +138,7 @@ dmypy.json
 cython_debug/
 
 # config
-config.py
+# config.py
 
 # png
 *.png
