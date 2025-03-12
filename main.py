@@ -31,12 +31,7 @@ try:
     )
 except ImportError:
     # 默认使用原有方式
-    mysql_config = {"host": "127.0.0.1", "port": 3306, "user": "root", "password": "", "database": ""}
-    redis_config = {"host": "127.0.0.1", "port": 6379, "db": 0, "password": None}
-    account_source = "config"
-    cookie_source = "qinglong"
-    cookie_target = "qinglong"
-    sms_func = "manual_input"  # 默认使用手动输入
+    raise
 
 
 async def init_data_sources():
@@ -47,27 +42,27 @@ async def init_data_sources():
     # 初始化Redis连接（如果需要）
     if cookie_source == "redis" or cookie_target == "redis":
         redis_manager = RedisManager(
-            host=redis_config.get("host", "127.0.0.1"),
-            port=redis_config.get("port", 6379),
-            db=redis_config.get("db", 0),
+            host=redis_config.get("host"),
+            port=redis_config.get("port"),
+            db=redis_config.get("db"),
             password=redis_config.get("password")
         )
 
     # 初始化MySQL连接（如果需要）
     if account_source == "mysql":
         mysql_manager = MysqlManager(
-            host=mysql_config.get("host", "127.0.0.1"),
-            port=mysql_config.get("port", 3306),
-            user=mysql_config.get("user", "root"),
-            password=mysql_config.get("password", ""),
-            database=mysql_config.get("database", "")
+            host=mysql_config.get("host"),
+            port=mysql_config.get("port"),
+            user=mysql_config.get("user"),
+            password=mysql_config.get("password"),
+            database=mysql_config.get("database")
         )
 
     return redis_manager, mysql_manager
 
 
 async def main(mode: str = None):
-    redis_manager, mysql_manager = init_data_sources()
+    redis_manager, mysql_manager = await init_data_sources()
     await run_update(mode, redis_manager, mysql_manager)
 
 

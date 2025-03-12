@@ -1,20 +1,13 @@
 import aiohttp
-import argparse
 import asyncio
 import cv2
 from loguru import logger
 import os
-from playwright.async_api import Playwright
 from playwright._impl._errors import TimeoutError
 import random
 import re
 from PIL import Image  # 用于图像处理
-import traceback
-from typing import Union
 import utils.consts as Consts
-from utils.cookie_updater import (
-    run_update
-)
 
 from utils.tools import (
     get_tmp_dir,
@@ -31,10 +24,8 @@ from utils.tools import (
     cv2_save_img,
     ddddocr_find_bytes_pic,
     solve_slider_captcha,
-    validate_proxy_config,
     is_valid_verification_code,
 )
-import uvicorn
 
 
 async def auto_move_slide_mobile(page, slider_selector, retry_times: int = 2, move_solve_type: str = ""):
@@ -122,6 +113,15 @@ async def sms_recognition_mobile(page, user, user_data_dict, mode):
     if sms_func == "no":
         logger.info("短信验证码识别已关闭")
         return False
+    # 检查是否有短信验证按钮，如果有则点击
+    try:
+        sms_button = page.locator("button.btn-def.btn-xl.mb20:has-text('使用 手机短信验证码')")
+        if await sms_button.count() > 0:
+            logger.info("点击使用手机短信验证码按钮")
+            await sms_button.click()
+            await asyncio.sleep(1)
+    except Exception as e:
+        logger.error(f"点击短信验证按钮失败: {e}")
 
     # 等待短信验证码输入框出现
     try:

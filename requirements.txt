@@ -9,3 +9,5 @@ pymysql
 fastapi
 uvicorn
 beautifulsoup4
+playwright_stealth
+setuptools

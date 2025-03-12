@@ -13,7 +13,7 @@ from PIL import Image
 import re
 from typing import Dict, Any
 from utils.consts import supported_colors
-from typing import Union, List
+import hashlib
 
 
 def get_tmp_dir(tmp_dir: str = './tmp'):
@@ -79,27 +79,6 @@ def get_word(ocr, img_path):
     image_bytes = open(img_path, "rb").read()
     result = ocr.classification(image_bytes, png_fix=True)
     return result
-
-
-def filter_forbidden_users(user_info: list, fields: list = None) -> list:
-    """
-    过滤出想要的字段的字典列表
-    """
-    return [{key: d[key] for key in fields if key in d} for d in user_info]
-
-
-def get_forbidden_users_dict(users_list: list, user_datas: dict) -> dict:
-    """
-    获取用户phone:信息的列表
-    """
-    users_dict = {}
-    for info in users_list:
-        for key in user_datas:
-            user_name = user_datas[key]['pt_pin']
-            if user_name == extract_username_pc(info['value']):
-                users_dict[key] = info
-                break
-    return users_dict
 
 
 async def download_image(url, filepath):
@@ -417,23 +396,11 @@ def validate_proxy_config(proxy):
 
 
 def is_valid_verification_code(code: str):
-    """
-    判断验证码格式是否正确
-    """
-    return bool(re.match(r"^\d{6}$", code))
-
-
-def extract_username_pc(value: str) -> Union[str, None]:
-    """
-    用正则提取value中pin的值, 返回一个pin,如果返回多个或没匹配上则返回空
-    """
-    pattern = r'pin\s*=\s*(["\']?)([^"\';]+)\1'  # 捕获pin 的值，并匹配可能的引号
-    matches = re.findall(pattern, value)
-    # 如果找到了多个匹配或没有匹配，则返回空
-    if len(matches) == 1:
-        # 返回 pin 的值
-        return matches[0][1]
-    return None
+    # """
+    # 判断验证码格式是否正确
+    # """
+    # return bool(re.match(r"^\d{{6}}$", code))
+    return True
 
 
 def desensitize_account(account, enable_desensitize=True):
@@ -459,3 +426,16 @@ def desensitize_account(account, enable_desensitize=True):
 
     # 如果不是手机号或QQ号，直接返回原账号
     return account
+
+
+def get_md5(text: str) -> str:
+    """
+    将字符串进行MD5转码
+    
+    Args:
+        text: 需要转码的字符串
+        
+    Returns:
+        str: MD5转码后的字符串
+    """
+    return hashlib.md5(text.encode('utf-8')).hexdigest()

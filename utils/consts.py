@@ -16,6 +16,7 @@ supported_types = [
     "梯形",
     "圆环"
 ]
+
 # 定义了支持的每种颜色的 HSV 范围
 supported_colors = {
     '紫色': ([125, 50, 50], [145, 255, 255]),
@@ -52,6 +53,16 @@ class MobileLoginSelectors:
     login_selector = ".btn.J_ping.active"
 
 
+class SmsFunc:
+    manual_input = "manual_input"
+    webhook = "webhook"
+    redis = "redis"
+
+
+class RunMode:
+    cron = "cron"
+
+
 class Platform:
     pc = "pc"
     mobile = "mobile"
@@ -59,7 +70,69 @@ class Platform:
 
 class Enterprise:
     jd = "jd"
+    all = "all"
+
+
+class UserType:
+    qq = "qq"
+    acc = "acc"
+
+
+class AccountStatus:
+    banned = "banned"
+    password_error = "password_error"
+    normal = "normal"
+
+
+class Account:
+    id: int
+    username: str
+    password: str
+    phone: str
+    enable: bool
+    user_type: str
+    force_update: bool
+    enterprise: str
+    sms_func: str
+    sms_webhook: str
+    voice_func: str
+
+    def __init__(self, username: str, password: str = "", phone: str = "",
+                 enable: bool = True, status: str = AccountStatus.normal, user_type: str = UserType.acc
+                 , force_update: bool = False,
+                 enterprise: str = Enterprise.jd, sms_func: str = "manual_input",
+                 sms_webhook: str = "https://127.0.0.1:3000/getCode",
+                 voice_func: str = "no",
+                 id: int = None):
+        """
+        初始化账号对象
+        
+        Args:
+            username: 用户名
+            password: 密码
+            phone: 手机号
+            enable: 账号状态，True为启用，False为禁用
+            user_type: 用户类型，如"normal"、"qq"等
+            is_banned: 是否被封禁
+            force_update: 是否强制更新Cookie
+            enterprise: 企业类型，如"jd"
+            sms_func: 短信验证码功能，默认为"manual_input"
+            id: 账号ID
+        """
+        self.id = id
+        self.username = username
+        self.password = password
+        self.phone = phone
+        self.enable = enable
+        self.status = status
+        self.user_type = user_type
+        self.force_update = force_update
+        self.enterprise = enterprise
+        self.sms_func = sms_func
+        self.sms_webhook = sms_webhook
+        self.voice_func = voice_func
 
 
 # 默认的UA, 可以在config.py里配置
-user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/133.0.0.0 Safari/537.36 Edg/133.0.0.0'
+user_agent = ('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/134.0.0.0 '
+              'Safari/537.36')

@@ -1,4 +1,6 @@
 # JD用户信息
+from utils.consts import SmsFunc
+
 user_datas = {
 
 }
@@ -7,7 +9,8 @@ user_datas = {
 cron_expression = "*/29 * * * *"
 
 # 浏览器是否开启无头模式，即是否展示整个登录过程
-headless = False
+headless_login = True
+headless_crawler = False
 
 # 是否开启发消息
 is_send_msg = False
@@ -33,8 +36,8 @@ send_info = {
 # no 关闭短信验证码识别
 # manual_input 手动在终端输入验证码
 # webhook 调用api获取验证码,可实现全自动填写验证码
-sms_func = "manual_input"
-sms_webhook = "https://127.0.0.1:3000/getCode"
+sms_func = SmsFunc.redis
+sms_webhook = "https://127.0.0.1:18888/"
 
 # voice_func为手机语音验证码的模式，no为关闭识别，manual_input为手动在终端输入验证码
 voice_func = "manual_input"
@@ -51,7 +54,7 @@ voice_func = "manual_input"
 
 # MySQL配置
 mysql_config = {
-    "host": "127.0.0.1",
+    "host": "192.168.1.77",
     "port": 3306,
     "user": "root",
     "password": "P@ssW0rd1874",
@@ -60,7 +63,7 @@ mysql_config = {
 
 # Redis配置
 redis_config = {
-    "host": "127.0.0.1",
+    "host": "192.168.1.77",
     "port": 6379,
     "db": 0,
     "password": None  # 如果没有密码则为None
