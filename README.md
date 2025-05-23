@@ -1,5 +1,3 @@
-# aujc
-
 ## 介绍
 - 用来自动化更新青龙面板的失效JD_COOKIE, 主要有三步
     - 自动检测并获取青龙面板的失效JD_COOKIE;
@@ -84,14 +82,6 @@ python main.py
 ```commandline
 python schedule_main.py
 ```
-
-## 特别感谢
-- 感谢 [所有赞助本项目的热心网友 --> 打赏名单](https://github.com/icepage/AutoUpdateJdCookie/wiki/%E6%89%93%E8%B5%8F%E5%90%8D%E5%8D%95)
-- 感谢 **https://github.com/sml2h3/ddddocr** 项目，牛逼项目
-- 感谢 **https://github.com/zzhjj/svjdck** 项目，牛逼项目
-
-## 创作不易，如果项目有帮助到你，大佬点个星或打个赏吧
-![JPG](./img/w.jpg)
 
 ## 数据源更新 (2025年3月6日更新)
 为了更灵活地支持不同的数据源，我们在本次更新中添加了Redis和MySQL数据源支持：
