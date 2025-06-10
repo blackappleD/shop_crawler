@@ -27,7 +27,7 @@
 
 ### 下载镜像
 ```shell
-docker pull icepage/aujc:latest
+docker pull blackappled/aujc:latest
 ```
 
 ### 配置config.py
