@@ -16,7 +16,7 @@
 - 支持windows,linux(无GUI)
 - 支持docker部署
 - 支持代理
-- linux无GUI使用文档请转向 [linux无GUI使用文档](https://github.com/icepage/AutoUpdateJdCookie/blob/main/README.linux.md)
+- linux无GUI使用文档请转向 [linux无GUI使用文档](https://github.com/blackappled/AutoUpdateJdCookie/blob/main/README.linux.md)
 - WINDOWS整体效果如下图
 
 ![GIF](./img/main.gif)
@@ -43,7 +43,7 @@ docker pull blackappled/aujc:latest
 - 配置中的sms_func设为manual_input时, 才能在终端填入短信验证码。
 - 当需要手动输入验证码时, docker运行需加-i参数。否则在触发短信验证码时会报错Operation not permitted
 ```bash
-docker run -i -v $PWD/config.py:/app/config.py icepage/aujc:latest python main.py
+docker run -i -v $PWD/config.py:/app/config.py /blackappled/aujc:latest python main.py
 ```
 
 ![PNG](./img/linux.png)
@@ -52,7 +52,7 @@ docker run -i -v $PWD/config.py:/app/config.py icepage/aujc:latest python main.p
 - 程序读config.py中的cron_expression, 定期进行更新任务
 - 当sms_func设置为manual_input, 长期运行时会自动将manual_input转成no，避免滥发短信验证码, 因为没地方可填验证码. 
 ```bash
-docker run -v $PWD/config.py:/app/config.py icepage/aujc:latest
+docker run -v $PWD/config.py:/app/config.py /blackappled/aujc:latest
 ```
 
 ## 2、本地部署
@@ -68,7 +68,7 @@ playwright install chromium
 
 ### 添加配置config.py
 - 复制config_example.py, 重命名为config.py, 我们基于这个config.py运行程序;
-- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com/icepage/AutoUpdateJdCookie/blob/main/配置文件说明.md)
+- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com//blackappled/AutoUpdateJdCookie/blob/main/配置文件说明.md)
 
 
 ### 运行脚本
