@@ -19,14 +19,14 @@
 ### 下载镜像
 
 ```shell
-docker pull icepage/aujc:latest
+docker pull blackappled/aujc:latest
 ```
 
 ### 配置config.py
 
 - 下载本项目的config_example.py, 重命名为config.py;
 - 配置config.py,
-  配置文件说明请转向 [配置文件说明](https://github.com/icepage/AutoUpdateJdCookie/blob/main/配置文件说明.md)
+  配置文件说明请转向 [配置文件说明](https://github.com/blackappled/shop_crawler/blob/main/配置文件说明.md)
 - config.py的**cron_expression**参数必填;
 - config.py的**headless一定要设为True!!!!**
 
@@ -39,7 +39,7 @@ docker pull icepage/aujc:latest
 - 当需要手动输入验证码时, docker运行需加-i参数。否则在触发短信验证码时会报错Operation not permitted
 
 ```bash
-docker run -i -v $PWD/config.py:/app/config.py icepage/aujc:latest python main.py
+docker run -i -v $PWD/config.py:/app/config.py blackappled/aujc:latest python main.py
 ```
 
 ![PNG](./img/linux.png)
@@ -50,7 +50,7 @@ docker run -i -v $PWD/config.py:/app/config.py icepage/aujc:latest python main.p
 - 当sms_func设置为manual_input, 长期运行时会自动将manual_input转成no，避免滥发短信验证码, 因为没地方可填验证码.
 
 ```bash
-docker run -v $PWD/config.py:/app/config.py icepage/aujc:latest
+docker run -v $PWD/config.py:/app/config.py blackappled/aujc:latest
 ```
 
 ## 2、本地部署
@@ -77,7 +77,7 @@ playwright install chromium
 
 - 复制config_example.py, 重命名为config.py, 我们基于这个config.py运行程序;
 - 配置config.py,
-  配置文件说明请转向 [配置文件说明](https://github.com/icepage/AutoUpdateJdCookie/blob/main/配置文件说明.md)
+  配置文件说明请转向 [配置文件说明](https://github.com/blackappled/shop_crawler/blob/main/配置文件说明.md)
 
 ### 运行脚本
 

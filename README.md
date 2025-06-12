@@ -16,7 +16,7 @@
 - 支持windows,linux(无GUI)
 - 支持docker部署
 - 支持代理
-- linux无GUI使用文档请转向 [linux无GUI使用文档](https://github.com/blackappled/AutoUpdateJdCookie/blob/main/README.linux.md)
+- linux无GUI使用文档请转向 [linux无GUI使用文档](https://github.com/blackappled/shop_crawler/blob/main/README.linux.md)
 - WINDOWS整体效果如下图
 
 ![GIF](./img/main.gif)
@@ -32,7 +32,7 @@ docker pull blackappled/aujc:latest
 
 ### 配置config.py
 - 下载本项目的config_example.py, 重命名为config.py; 
-- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com/blackappled/AutoUpdateJdCookie/blob/main/配置文件说明.md)
+- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com/blackappled/shop_crawler/blob/main/配置文件说明.md)
 - config.py的**cron_expression**参数必填;
 - config.py的**headless一定要设为True!!!!**
 
@@ -68,7 +68,7 @@ playwright install chromium
 
 ### 添加配置config.py
 - 复制config_example.py, 重命名为config.py, 我们基于这个config.py运行程序;
-- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com//blackappled/AutoUpdateJdCookie/blob/main/配置文件说明.md)
+- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com//blackappled/shop_crawler/blob/main/配置文件说明.md)
 
 
 ### 运行脚本
