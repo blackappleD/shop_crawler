@@ -32,7 +32,7 @@ docker pull blackappled/aujc:latest
 
 ### 配置config.py
 - 下载本项目的config_example.py, 重命名为config.py; 
-- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com/icepage/AutoUpdateJdCookie/blob/main/配置文件说明.md)
+- 配置config.py, 配置文件说明请转向 [配置文件说明](https://github.com/blackappled/AutoUpdateJdCookie/blob/main/配置文件说明.md)
 - config.py的**cron_expression**参数必填;
 - config.py的**headless一定要设为True!!!!**
 
