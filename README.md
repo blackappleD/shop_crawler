@@ -1,8 +1,8 @@
 ## 介绍
-- 用来自动化更新青龙面板的失效JD_COOKIE, 主要有三步
-    - 自动检测并获取青龙面板的失效JD_COOKIE;
+- 用来自动化更新qinglong面板的失效JD_COOKIE, 主要有三步
+    - 自动检测并获取qinglong面板的失效JD_COOKIE;
     - 拿到失效JD_COOKIE内容后, 根据配置的账号信息, 自动化登录JD页面, 拿到key;
-    - 根据拿到的key, 自动化更新青龙面板的失效JD_COOKIE。
+    - 根据拿到的key, 自动化更新qinglong面板的失效JD_COOKIE。
 - 支持的验证码类型有：
   - 滑块验证码;
   - 形状颜色验证码(基本不会出现了);
@@ -92,9 +92,9 @@ python schedule_main.py
 # 数据源配置
 # 账号信息来源: "config" 表示从config.py的user_datas获取，"mysql" 表示从MySQL获取
 account_source = "config"  # 或 "mysql"
-# Cookie来源: "qinglong" 表示从青龙面板获取，"redis" 表示从Redis获取
+# Cookie来源: "qinglong" 表示从qinglong面板获取，"redis" 表示从Redis获取
 cookie_source = "qinglong"  # 或 "redis"
-# Cookie目标存储: "qinglong" 表示存储到青龙面板，"redis" 表示存储到Redis
+# Cookie目标存储: "qinglong" 表示存储到qinglong面板，"redis" 表示存储到Redis
 cookie_target = "qinglong"  # 或 "redis"
 ```
 
@@ -135,7 +135,7 @@ redis_config = {
 
 可以根据需要灵活组合这些选项，例如：
 - 从配置文件获取账号信息，从Redis获取Cookie，并将更新后的Cookie存储到Redis
-- 从MySQL获取账号信息，从青龙面板获取Cookie，并将更新后的Cookie存储到青龙面板
+- 从MySQL获取账号信息，从qinglong面板获取Cookie，并将更新后的Cookie存储到qinglong面板
 - 从MySQL获取账号信息，从Redis获取Cookie，并将更新后的Cookie存回Redis
 
 ### 5. 新功能：Redis为空时自动初始化所有账号
